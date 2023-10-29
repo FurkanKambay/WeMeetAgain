@@ -5,8 +5,8 @@ namespace Game
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public PlayerControl playerControl;
-        public float speed = 5f;
+        [SerializeField] private PlayerControl playerControl;
+        [SerializeField] private float speed = 5f;
 
         private CharacterController character;
 
@@ -16,7 +16,7 @@ namespace Game
 
         private void Move()
         {
-            var direction = GetMovementDirection();
+            Vector3 direction = GetMovementDirection();
             character.Move(direction * (speed * Time.deltaTime));
         }
 
