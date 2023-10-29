@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControl: 1
   speed: 5
+  turnSpeed: 20
 --- !u!143 &3121514205442490229
 CharacterController:
   m_ObjectHideFlags: 0

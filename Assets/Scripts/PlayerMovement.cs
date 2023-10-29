@@ -7,17 +7,28 @@ namespace Game
     {
         [SerializeField] private PlayerControl playerControl;
         [SerializeField] private float speed = 5f;
+        [SerializeField] private float turnSpeed = 100f;
 
         private CharacterController character;
 
         private void Awake() => character = GetComponent<CharacterController>();
 
-        private void Update() => Move();
-
-        private void Move()
+        private void Update()
         {
             Vector3 direction = GetMovementDirection();
-            character.Move(direction * (speed * Time.deltaTime));
+            Move(direction);
+            Turn(direction);
+        }
+
+        private void Move(Vector3 direction) => character.Move(direction * (speed * Time.deltaTime));
+
+        private void Turn(Vector3 direction)
+        {
+            if (direction == Vector3.zero)
+                return;
+
+            var targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
         }
 
         private Vector3 GetMovementDirection()
