@@ -1,4 +1,5 @@
 using Game.Common;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Game
@@ -10,12 +11,17 @@ namespace Game
         [SerializeField] private float turnSpeed = 100f;
 
         private CharacterController character;
+        private new Transform camera;
 
-        private void Awake() => character = GetComponent<CharacterController>();
+        private void Awake()
+        {
+            character = GetComponent<CharacterController>();
+            camera = Camera.main.transform;
+        }
 
         private void Update()
         {
-            Vector3 direction = GetMovementDirection();
+            Vector3 direction = Quaternion.Euler(0, camera.eulerAngles.y, 0) * GetMovementDirection();
             Move(direction);
             Turn(direction);
         }
