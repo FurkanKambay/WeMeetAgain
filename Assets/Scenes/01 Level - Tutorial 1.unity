@@ -158,7 +158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3676165943892979232, guid: 9f5116651318461439a014d38f193dc7, type: 3}
       propertyPath: resetSeconds
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3676165943892979232, guid: 9f5116651318461439a014d38f193dc7, type: 3}
       propertyPath: OnReset.m_PersistentCalls.m_Calls.Array.size

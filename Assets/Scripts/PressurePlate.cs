@@ -13,15 +13,23 @@ namespace Game
         public UnityEvent OnPressed;
         public UnityEvent OnReset;
 
+        [SerializeField] private Material normalMaterial;
+        [SerializeField] private Material pressedMaterial;
+
+        private new MeshRenderer renderer;
         private bool isPressed;
 
         private void Awake()
-            => Assert.IsTrue(GetComponent<Collider>().isTrigger, "PressurePlate needs a trigger collider.");
+        {
+            Assert.IsTrue(GetComponent<Collider>().isTrigger, "PressurePlate needs a trigger collider.");
+            renderer = GetComponentInChildren<MeshRenderer>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
             isPressed = true;
             OnPressed.Invoke();
+            UpdateVisuals(true);
         }
 
         private void OnTriggerExit(Collider other)
@@ -35,8 +43,17 @@ namespace Game
 
         private void SafeReset()
         {
-            if (!isPressed)
-                OnReset.Invoke();
+            if (isPressed)
+                return;
+
+            OnReset.Invoke();
+            UpdateVisuals(false);
+        }
+
+        private void UpdateVisuals(bool isPressedDown)
+        {
+            transform.localScale = isPressedDown ? new Vector3(1, 0.2f, 1) : Vector3.one;
+            renderer.material = isPressedDown ? pressedMaterial : normalMaterial;
         }
     }
 }

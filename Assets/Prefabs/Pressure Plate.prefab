@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a1fd76d0212c6084893233e0e05c013d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,7 +112,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 10.5, y: 0, z: 7.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4441119974677943533}
   m_Father: {fileID: 0}
@@ -158,3 +158,5 @@ MonoBehaviour:
   OnReset:
     m_PersistentCalls:
       m_Calls: []
+  normalMaterial: {fileID: 2100000, guid: a1fd76d0212c6084893233e0e05c013d, type: 2}
+  pressedMaterial: {fileID: 2100000, guid: 3c2b980c773087b40929ead506447c15, type: 2}
