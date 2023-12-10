@@ -19,11 +19,14 @@ namespace Game
 
         private new MeshRenderer renderer;
         private bool isPressed;
+        private Vector3 rendererBaseScale;
+
 
         private void Awake()
         {
             Assert.IsTrue(GetComponent<Collider>().isTrigger, "PressurePlate needs a trigger collider.");
             renderer = GetComponentInChildren<MeshRenderer>();
+            rendererBaseScale= renderer.GetComponent<Transform>().localScale;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -54,7 +57,7 @@ namespace Game
 
         private void UpdateVisuals(bool isPressedDown)
         {
-            transform.localScale = isPressedDown ? new Vector3(1, 0.2f, 1) : Vector3.one;
+            renderer.transform.localScale = isPressedDown ? new Vector3(rendererBaseScale.x, rendererBaseScale.y * 0.2f, rendererBaseScale.z) : rendererBaseScale;
             renderer.material = isPressedDown ? pressedMaterial : normalMaterial;
         }
     }
