@@ -17,6 +17,7 @@ namespace Game
         private Quaternion targetStickRotation;
 
         private bool isToggledOn;
+        [SerializeField] private AudioSource triggeredSound;
 
         private void Awake()
         {
@@ -52,6 +53,7 @@ namespace Game
                 OnToggleOn.Invoke();
             else
                 OnToggleOff.Invoke();
+            triggeredSound.Play();
         }
 
         private void UpdateVisuals()

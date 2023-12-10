@@ -15,6 +15,7 @@ namespace Game
 
         [SerializeField] private Material normalMaterial;
         [SerializeField] private Material pressedMaterial;
+        [SerializeField] private AudioSource pressedSound;
 
         private new MeshRenderer renderer;
         private bool isPressed;
@@ -28,6 +29,7 @@ namespace Game
         private void OnTriggerEnter(Collider other)
         {
             isPressed = true;
+            pressedSound.Play();
             OnPressed.Invoke();
             UpdateVisuals(true);
         }
