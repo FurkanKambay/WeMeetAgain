@@ -50,6 +50,7 @@ MonoBehaviour:
   playerControl: 1
   speed: 5
   turnSpeed: 20
+  gravity: -2
 --- !u!143 &3121514205442490229
 CharacterController:
   m_ObjectHideFlags: 0
