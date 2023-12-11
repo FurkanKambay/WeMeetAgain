@@ -11,24 +11,26 @@ namespace Game
         [SerializeField] private float gravity = -10f;
 
         private CharacterController character;
-        private Transform playerCamera; // Use a separate variable for the player's camera
+        private Transform playerCamera;
 
         private void Awake()
         {
             character = GetComponent<CharacterController>();
-            playerCamera = transform.GetChild(0); // Assuming the camera is the first child of the player
+            playerCamera = GetComponentInChildren<Camera>().transform;
         }
 
         private void Update()
         {
-            Vector3 inputDirection = GetMovementInput();
+            Vector3 moveInput = GetMovementInput();
+            Vector3 turnInput = GetTurnInput();
 
-            // Use local rotation of the player's camera instead of the main camera
-            Vector3 movementDirection = Quaternion.Euler(0, playerCamera.eulerAngles.y, 0) * inputDirection;
-            Turn(movementDirection);
+            var playerRef = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            Vector3 direction = playerRef * turnInput;
+            Turn(direction);
 
-            movementDirection.y = gravity;
-            Move(movementDirection);
+            var dir = playerRef * moveInput;
+            var movement = new Vector3(dir.x, gravity, dir.z);
+            Move(movement);
         }
 
         private void Move(Vector3 direction) => character.Move(direction * (speed * Time.deltaTime));
@@ -39,15 +41,25 @@ namespace Game
                 return;
 
             var targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, turnSpeed * Time.deltaTime);
         }
 
         private Vector3 GetMovementInput()
         {
             return playerControl switch
             {
-                PlayerControl.Player1 => new Vector3(Input.GetAxisRaw("P1 Horizontal"), 0, Input.GetAxisRaw("P1 Vertical")).normalized,
-                PlayerControl.Player2 => new Vector3(Input.GetAxisRaw("P2 Horizontal"), 0, Input.GetAxisRaw("P2 Vertical")).normalized,
+                PlayerControl.Player1 => new Vector3(0, 0, Input.GetAxisRaw("P1 Vertical")).normalized,
+                PlayerControl.Player2 => new Vector3(0, 0, Input.GetAxisRaw("P2 Vertical")).normalized,
+                _ => Vector3.zero
+            };
+        }
+
+        private Vector3 GetTurnInput()
+        {
+            return playerControl switch
+            {
+                PlayerControl.Player1 => new Vector3(Input.GetAxisRaw("P1 Horizontal"), 0, 0).normalized,
+                PlayerControl.Player2 => new Vector3(Input.GetAxisRaw("P2 Horizontal"), 0, 0).normalized,
                 _ => Vector3.zero
             };
         }
