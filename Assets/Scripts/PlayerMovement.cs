@@ -11,19 +11,20 @@ namespace Game
         [SerializeField] private float gravity = -10f;
 
         private CharacterController character;
-        private new Transform camera;
+        private Transform playerCamera; // Use a separate variable for the player's camera
 
         private void Awake()
         {
             character = GetComponent<CharacterController>();
-            camera = Camera.main.transform;
+            playerCamera = transform.GetChild(0); // Assuming the camera is the first child of the player
         }
 
         private void Update()
         {
             Vector3 inputDirection = GetMovementInput();
 
-            Vector3 movementDirection = Quaternion.Euler(0, camera.eulerAngles.y, 0) * inputDirection;
+            // Use local rotation of the player's camera instead of the main camera
+            Vector3 movementDirection = Quaternion.Euler(0, playerCamera.eulerAngles.y, 0) * inputDirection;
             Turn(movementDirection);
 
             movementDirection.y = gravity;
